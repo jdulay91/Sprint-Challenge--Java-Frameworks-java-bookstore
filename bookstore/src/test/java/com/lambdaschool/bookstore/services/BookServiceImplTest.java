@@ -91,7 +91,7 @@ public class BookServiceImplTest {
     @Test(expected = ResourceNotFoundException.class)
     public void bbba_saveputfailed(){
         Author a7 = new Author("Julliann", "Dulay");
-        a7.setAuthorid(200);
+        a7.setAuthorid(20);
         Section s6 = new Section("Fitness");
         s6.setSectionid(201);
 
@@ -115,6 +115,20 @@ public class BookServiceImplTest {
         Book saveB5 = bookService.save(b5);
         assertEquals("Drink Water", saveB5.getTitle());
     }
+    @Test(expected = EntityNotFoundException.class)
+    public void bbbad_saveputfailedAuthor(){
+        Author a7 = new Author("Julliann", "Dulay");
+        Section s6 = new Section("Fitness");
+        s6.setSectionid(21);
+
+        Book b5 = new Book("Drink Water", "021099103910", 2000, s6);
+        b5.getWrotes()
+                .add(new Wrote(a7, new Book()));
+        b5.setBookid(500);
+        b5.setCopy(300);
+        Book saveB5 = bookService.save(b5);
+        assertEquals("Drink Water", saveB5.getTitle());
+    }
 
     @Test
     public void  cc_update() {
@@ -125,10 +139,22 @@ public class BookServiceImplTest {
         Book b1 = new Book("ButterLand", "9780738206752", 2001, s1);
         b1.getWrotes()
                 .add(new Wrote(a6, new Book()));
+        b1.setCopy(100);
         Book newB1 = bookService.update(b1,26);
-
         assertEquals("ButterLand", newB1.getTitle());
-
+    }
+    @Test(expected = EntityNotFoundException.class)
+    public void  ccd_updateFailed() {
+        Author a6 = new Author("Ian", "Stewart");
+        a6.setAuthorid(20450);
+        Section s1 = new Section("Fiction");
+        s1.setSectionid(21);
+        Book b1 = new Book("ButterLand", "9780738206752", 2001, s1);
+        b1.getWrotes()
+                .add(new Wrote(a6, new Book()));
+        b1.setCopy(100);
+        Book newB1 = bookService.update(b1,26);
+        assertEquals("ButterLand", newB1.getTitle());
     }
 
     @Test
