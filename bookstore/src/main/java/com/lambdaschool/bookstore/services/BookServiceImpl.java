@@ -88,8 +88,7 @@ public class BookServiceImpl
         {
             Author addAuthor = authorrepos.findById(w.getAuthor()
                                                             .getAuthorid())
-                    .orElseThrow(() -> new EntityNotFoundException("Author Id " + w.getAuthor()
-                            .getAuthorid() + " Not Found!"));
+                    .orElseThrow(() -> new EntityNotFoundException("Author Id " + w.getAuthor().getAuthorid() + " Not Found!"));
             newBook.getWrotes()
                     .add(new Wrote(addAuthor, newBook));
         }
